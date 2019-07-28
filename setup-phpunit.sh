@@ -423,7 +423,7 @@ if ! [[ -f "/tmp/mysql.sock" ]]; then
 fi
 if ! [[ "mysqlshow --version" ]]; then
 	database=$(mysqlshow --defaults-file="/tmp/my.cnf" wordpress_test | grep -v Wildcard | grep -o wordpress_test)
-elif `mysql -e 'use wordpress_test'`; then
+elif $(mysql -e 'use wordpress_test'); then
 	database="wordpress_test"
 fi
 
