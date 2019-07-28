@@ -215,7 +215,11 @@ do
 	fi
 done
 
-
+# Can use $(uname) to determine OS type.
+if [[ 'Darwin' = $(uname) ]]; then
+	OS_TYPE="MacOS"
+fi
+echo $OS_TYPE
 INSTALL_PACKAGES=false
 if ! packages_installed; then INSTALL_PACKAGES=true; fi
 [[ -z "$UPDATE_PACKAGES" ]] && UPDATE_PACKAGES=false
@@ -224,26 +228,26 @@ if [[ "$INSTALL_PACKAGES" = true || "$UPDATE_PACKAGES" = true ]]; then
 
 	[[ "$INSTALL_PACKAGES" = true ]] && printf "Installing packages...\n" || printf "Updating packages...\n"
 
-	if ! [[ "apt-get --version" ]]; then
+	if ! [[ "MacOS" = $OS_TYPE ]]; then
 		# Re-synchronize the package index files from their sources.
 		apt-get update -y
 
 		# Install packages.
 		apt-get install -y wget subversion curl git rsync
-	fi
 
-	# Install composer.
-	if [[ -f "/usr/bin/curl" && ! -f "/usr/local/bin/composer" ]]; then
-		curl -sS https://getcomposer.org/installer | php
-		mv composer.phar /usr/local/bin/composer || exit
-		if [[ -f "$HOME/.bashrc" ]]; then
-			printf "Adding .composer/vendor/bin to the PATH\n"
-			echo 'export PATH="$PATH:$HOME/.composer/vendor/bin"' >> "$HOME/.bashrc"
-		fi
-	else
-		if [[ -f "/usr/local/bin/composer" ]]; then
-			printf "Updating composer...\n"
-			composer self-update || printf "${RED}WARNING${RESET} Could not update composer. %s\n" "$CONNECTION"
+		# Install composer.
+		if [[ -f "/usr/bin/curl" && ! -f "/usr/local/bin/composer" ]]; then
+			curl -sS https://getcomposer.org/installer | php
+			mv composer.phar /usr/local/bin/composer || exit
+			if [[ -f "$HOME/.bashrc" ]]; then
+				printf "Adding .composer/vendor/bin to the PATH\n"
+				echo 'export PATH="$PATH:$HOME/.composer/vendor/bin"' >> "$HOME/.bashrc"
+			fi
+		else
+			if [[ -f "/usr/local/bin/composer" ]]; then
+				printf "Updating composer...\n"
+				composer self-update || printf "${RED}WARNING${RESET} Could not update 	composer. %s\n" "$CONNECTION"
+			fi
 		fi
 	fi
 fi
