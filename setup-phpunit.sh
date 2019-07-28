@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 # ===============================================================================
-# Script to install PHPUnit in the Local by Flywheel Mac app
+# Script to install PHPUnit in the Local Lightning by Flywheel Mac app
+# Modified from Kees Meijer's fabulous gist, https://gist.github.com/keesiemeijer/a888f3d9609478b310c2d952644891ba
 # These packages are installed
 #
 #     PHPUnit, curl wget, rsync, git, subversion and composer.
@@ -31,7 +32,7 @@
 # Instructions
 #
 # 1 - Download this file (setup-phpunit.sh) inside your site's /app folder
-# curl -o setup-phpunit.sh https://gist.githubusercontent.com/keesiemeijer/a888f3d9609478b310c2d952644891ba/raw/
+# curl -o setup-phpunit.sh https://raw.githubusercontent.com/afragen/setup-phpunit/lightning/setup-phpunit.sh
 #
 # 2 - Right click your site in the Local App and click Open Site SSH
 # A new terminal window will open
