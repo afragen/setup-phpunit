@@ -218,6 +218,8 @@ done
 # Can use $(uname) to determine OS type.
 if [[ 'Darwin' = $(uname) ]]; then
 	OS_TYPE="MacOS"
+else
+	OS_TYPE="Linux/WSL"
 fi
 echo $OS_TYPE
 INSTALL_PACKAGES=false
@@ -228,6 +230,12 @@ if [[ "$INSTALL_PACKAGES" = true || "$UPDATE_PACKAGES" = true ]]; then
 
 	[[ "$INSTALL_PACKAGES" = true ]] && printf "Installing packages...\n" || printf "Updating packages...\n"
 
+	if [[ "MacOS" = $OS_TYPE && "$INSTALL_PACKAGES" = true ]]; then
+		xcode-select --install
+		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+		brew install wget
+		brew install composer
+	fi
 	if ! [[ "MacOS" = $OS_TYPE ]]; then
 		# Re-synchronize the package index files from their sources.
 		apt-get update -y
