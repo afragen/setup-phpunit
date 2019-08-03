@@ -168,6 +168,7 @@ function clean_up_temp_files() {
 	[[ -d "/tmp/tmp-wordpress/" ]] && rm -rf "/tmp/tmp-wordpress/"
 	[[ -d "/tmp/tmp-wordpress-tests-lib/" ]] && rm -rf "/tmp/tmp-wordpress-tests-lib/"
 	[[ -f "/tmp/my.cnf" ]] && rm -f "/tmp/my.cnf"
+	[[ -L "/tmp/mysql.sock" ]] && rm -f "/tmp/mysql.sock"
 }
 
 function exit_script() {
