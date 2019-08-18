@@ -27,7 +27,6 @@
 # Packages are only installed for the site where you've run this script.
 # ===============================================================================
 
-
 # ===============================================================================
 # Instructions
 #
@@ -50,7 +49,6 @@
 # phpunit --version
 #
 # ===============================================================================
-
 
 # ===============================================================================
 # Options
@@ -81,7 +79,6 @@
 #
 # ===============================================================================
 
-
 # ===============================================================================
 # Default PHPUnit version
 #
@@ -111,12 +108,11 @@
 #
 # ===============================================================================
 
-
 # Strings used in error messages.
 readonly QUIT="Stopping script..."
 readonly CONNECTION="Make sure you're connected to the internet."
 readonly RED='\033[0;31m' # Red color.
-readonly RESET='\033[0m' # No color.
+readonly RESET='\033[0m'  # No color.
 
 # Functions
 function download() {
@@ -125,7 +121,7 @@ function download() {
 		wget -q --show-progress -O "$2" "$1" && download=true
 
 		# Check if file exists.
-		if [[ -f "$2" && "$download" = true ]]; then
+		if [[ -f "$2" && "$download" == true ]]; then
 			return 0
 		fi
 	fi
@@ -144,7 +140,7 @@ function download_test_suite() {
 			# Check if path exists.
 			[[ ! -e "/tmp/tmp-wordpress-tests-lib/$path" ]] && exit=1
 		done
-		if [[ 0 = "$exit" ]]; then
+		if [[ 0 == "$exit" ]]; then
 			return 0
 		fi
 	fi
@@ -177,35 +173,34 @@ function exit_script() {
 }
 
 # Get arguments.
-for arg in "$@"
-do
+for arg in "$@"; do
 	if [[ "$arg" =~ ^- ]]; then
 		# Argument start with a dash.
 		case "$arg" in
-			--phpunit-version=*) PHPUNIT_VERSION=${arg#"--phpunit-version="};;
-			--wp-version=*) WP_VERSION=${arg#"--wp-version="};;
-			--wp-ts-version=*) WP_TS_VERSION=${arg#"--wp-ts-version="};;
-			--update-packages*) UPDATE_PACKAGES=true;;
-			-?|--help)
-				printf "Install PHPUnit in the Local by Flywheel Mac app\n\n"
-				printf "Usage:\n"
-				printf "\tbash setup-phpunit.sh [option...]\n\n"
-				printf "Example:\n"
-				printf "\tbash setup-phpunit.sh --phpunit-version=6 --wp-version=trunk\n\n"
-				printf "Options:\n"
-				printf -- "\t--phpunit-version    PHPUnit version to install\n"
-				printf -- "\t--wp-version         WordPress version to install\n"
-				printf -- "\t                     Accepts a version number, 'latest', 'trunk' or 'nightly'. Default 'latest'\n"
-				printf -- "\t--wp-ts-version      WordPress Test Suite version to install\n"
-				printf -- "\t                     Accepts a version number, 'latest', 'trunk' or 'nightly'. Default --wp-version option\n"
-				printf -- "\t--update-packages    Update all packages installed by this script\n"
-				printf -- "\t                     Updates curl wget, rsync, git, subversion and composer\n"
-				printf -- "\t-?|--help            Display information about this script\n\n"
-				exit 0
+		--phpunit-version=*) PHPUNIT_VERSION=${arg#"--phpunit-version="} ;;
+		--wp-version=*) WP_VERSION=${arg#"--wp-version="} ;;
+		--wp-ts-version=*) WP_TS_VERSION=${arg#"--wp-ts-version="} ;;
+		--update-packages*) UPDATE_PACKAGES=true ;;
+		-? | --help)
+			printf "Install PHPUnit in the Local by Flywheel Mac app\n\n"
+			printf "Usage:\n"
+			printf "\tbash setup-phpunit.sh [option...]\n\n"
+			printf "Example:\n"
+			printf "\tbash setup-phpunit.sh --phpunit-version=6 --wp-version=trunk\n\n"
+			printf "Options:\n"
+			printf -- "\t--phpunit-version    PHPUnit version to install\n"
+			printf -- "\t--wp-version         WordPress version to install\n"
+			printf -- "\t                     Accepts a version number, 'latest', 'trunk' or 'nightly'. Default 'latest'\n"
+			printf -- "\t--wp-ts-version      WordPress Test Suite version to install\n"
+			printf -- "\t                     Accepts a version number, 'latest', 'trunk' or 'nightly'. Default --wp-version option\n"
+			printf -- "\t--update-packages    Update all packages installed by this script\n"
+			printf -- "\t                     Updates curl wget, rsync, git, subversion and composer\n"
+			printf -- "\t-?|--help            Display information about this script\n\n"
+			exit 0
 			;;
-			*)
-				printf "Unknown option: %s.\nUse \"bash setup-phpunit.sh --help\" to see all options\n%s\n" "$arg" "$QUIT_MSG"
-				exit_script
+		*)
+			printf "Unknown option: %s.\nUse \"bash setup-phpunit.sh --help\" to see all options\n%s\n" "$arg" "$QUIT_MSG"
+			exit_script
 			;;
 		esac
 	else
@@ -216,7 +211,7 @@ do
 done
 
 # Can use $(uname) to determine OS type.
-if [[ 'Darwin' = $(uname) ]]; then
+if [[ 'Darwin' == $(uname) ]]; then
 	OS_TYPE="MacOS"
 else
 	OS_TYPE="Linux/WSL"
@@ -226,17 +221,17 @@ INSTALL_PACKAGES=false
 if ! packages_installed; then INSTALL_PACKAGES=true; fi
 [[ -z "$UPDATE_PACKAGES" ]] && UPDATE_PACKAGES=false
 
-if [[ "$INSTALL_PACKAGES" = true || "$UPDATE_PACKAGES" = true ]]; then
+if [[ "$INSTALL_PACKAGES" == true || "$UPDATE_PACKAGES" == true ]]; then
 
-	[[ "$INSTALL_PACKAGES" = true ]] && printf "Installing packages...\n" || printf "Updating packages...\n"
+	[[ "$INSTALL_PACKAGES" == true ]] && printf "Installing packages...\n" || printf "Updating packages...\n"
 
-	if [[ "MacOS" = $OS_TYPE && "$INSTALL_PACKAGES" = true ]]; then
+	if [[ "MacOS" == $OS_TYPE && "$INSTALL_PACKAGES" == true ]]; then
 		xcode-select --install
 		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 		brew install wget
 		brew install composer
 	fi
-	if ! [[ "MacOS" = $OS_TYPE ]]; then
+	if ! [[ "MacOS" == $OS_TYPE ]]; then
 		# Re-synchronize the package index files from their sources.
 		apt-get update -y
 
@@ -249,7 +244,7 @@ if [[ "$INSTALL_PACKAGES" = true || "$UPDATE_PACKAGES" = true ]]; then
 			mv composer.phar /usr/local/bin/composer || exit
 			if [[ -f "$HOME/.bashrc" ]]; then
 				printf "Adding .composer/vendor/bin to the PATH\n"
-				echo 'export PATH="$PATH:$HOME/.composer/vendor/bin"' >> "$HOME/.bashrc"
+				echo 'export PATH="$PATH:$HOME/.composer/vendor/bin"' >>"$HOME/.bashrc"
 			fi
 		else
 			if [[ -f "/usr/local/bin/composer" ]]; then
@@ -275,7 +270,7 @@ readonly PHP_VERSION="${PHP_VERSION:0:3}"
 # Set the PHPUnit version if needed.
 if [[ -z "$PHPUNIT_VERSION" ]]; then
 	case "$PHP_VERSION" in
-	7.4|7.3|7.2|7.1)
+	7.4 | 7.3 | 7.2 | 7.1)
 		PHPUNIT_VERSION=7
 		;;
 	7.0)
@@ -307,11 +302,11 @@ if [[ -f "$HOME/.bashrc" ]]; then
 
 	if [[ -z "${WP_TESTS_DIR}" ]]; then
 		printf "Setting WP_TESTS_DIR environment variable\n"
-		echo 'export WP_TESTS_DIR=/tmp/wordpress-tests-lib' >> "$HOME/.bashrc"
+		echo 'export WP_TESTS_DIR=/tmp/wordpress-tests-lib' >>"$HOME/.bashrc"
 	fi
 	if [[ -z "${WP_CORE_DIR}" ]]; then
 		printf "Setting WP_CORE_DIR environment variable\n"
-		echo 'export WP_CORE_DIR=/tmp/wordpress' >> "$HOME/.bashrc"
+		echo 'export WP_CORE_DIR=/tmp/wordpress' >>"$HOME/.bashrc"
 	fi
 
 	# Get the new variables.
@@ -340,9 +335,9 @@ cd "$WP_CORE_DIR" || exit
 [[ -z "$WP_VERSION" ]] && WP_VERSION='latest'
 
 # Get the latest WordPress version from API.
-readonly WP_LATEST=$(wget -q -O - "http://api.wordpress.org/core/version-check/1.5/" | head -n 4 | tail -n 1);
+readonly WP_LATEST=$(wget -q -O - "http://api.wordpress.org/core/version-check/1.5/" | head -n 4 | tail -n 1)
 
-if [[ 'latest' = "$WP_VERSION" ]]; then
+if [[ 'latest' == "$WP_VERSION" ]]; then
 	WP_VERSION="$WP_LATEST"
 	if [[ -z "$WP_LATEST" ]]; then
 		printf "${RED}ERROR${RESET} Could not get latest WordPress version from api.wordpress.org. %s\n%s\n" "$CONNECTION" "$QUIT"
@@ -357,11 +352,11 @@ readonly WP_VERSION="$WP_VERSION"
 [[ -z "$WP_TS_VERSION" ]] && WP_TS_VERSION="$WP_VERSION"
 
 # Install WordPress.
-if [[ 'trunk' = "$WP_VERSION" ]]; then
+if [[ 'trunk' == "$WP_VERSION" ]]; then
 	printf "Installing WordPress trunk... \n"
 	svn export --quiet --force "https://develop.svn.wordpress.org/trunk/src/" "/tmp/tmp-wordpress/"
 	rsync -a --delete "/tmp/tmp-wordpress/" "$WP_CORE_DIR"
-elif [[ 'nightly' = "$WP_VERSION" ]]; then
+elif [[ 'nightly' == "$WP_VERSION" ]]; then
 	printf "Installing WordPress nightly... \n"
 	if download "https://wordpress.org/nightly-builds/wordpress-latest.zip" "/tmp/wordpress-latest.zip"; then
 		unzip -o -q "/tmp/wordpress-latest.zip" -d "/tmp/tmp-wordpress/"
@@ -375,9 +370,9 @@ else
 	fi
 fi
 
-if [[ 'trunk' = "$WP_TS_VERSION" || 'nightly' = "$WP_TS_VERSION" ]]; then
+if [[ 'trunk' == "$WP_TS_VERSION" || 'nightly' == "$WP_TS_VERSION" ]]; then
 	TS_ARCHIVE="trunk"
-elif [[ $WP_TS_VERSION = 'latest' ]]; then
+elif [[ $WP_TS_VERSION == 'latest' ]]; then
 	TS_ARCHIVE="tags/$WP_LATEST"
 	WP_TS_VERSION="$WP_LATEST"
 else
@@ -386,10 +381,10 @@ fi
 
 # Install WP test suite.
 printf "Installing WordPress %s Test Suite...\n" "$WP_TS_VERSION"
-if download_test_suite  "$TS_ARCHIVE" "$WP_TS_VERSION"; then
+if download_test_suite "$TS_ARCHIVE" "$WP_TS_VERSION"; then
 	rsync -a --delete "/tmp/tmp-wordpress-tests-lib/" "$WP_TESTS_DIR"
 else
-	if [[ 'trunk' = "$TS_ARCHIVE" ]]; then
+	if [[ 'trunk' == "$TS_ARCHIVE" ]]; then
 		printf "%s\n" "$QUIT"
 		exit_script
 	fi
@@ -399,7 +394,7 @@ else
 		rsync -a --delete "/tmp/tmp-wordpress-tests-lib/" "$WP_TESTS_DIR"
 	else
 		printf "%s\n" "$QUIT"
-		exit_script;
+		exit_script
 	fi
 fi
 
@@ -424,12 +419,12 @@ printf "Checking if database wordpress_test exists\n"
 touch /tmp/my.cnf
 
 # Suppress password warnings. It silly I know :-)
-printf "[client]\npassword=root\nuser=root" > "/tmp/my.cnf"
+printf "[client]\npassword=root\nuser=root" >"/tmp/my.cnf"
 
 # Check if database exists.
 database=""
 if ! [[ -f "/tmp/mysql.sock" ]]; then
-	SOCKET=$(mysqld --verbose --help | grep ^socket |  awk '{print $2, $3, $4}')
+	SOCKET=$(mysqld --verbose --help | grep ^socket | awk '{print $2, $3, $4}')
 	ln -sf "$SOCKET" /tmp/mysql.sock
 	echo "Copy 'mysql.sock' from Local Lightning"
 fi
@@ -439,7 +434,7 @@ elif $(mysql -e 'use wordpress_test'); then
 	database="wordpress_test"
 fi
 
-if ! [[ "wordpress_test" = "$database" ]]; then
+if ! [[ "wordpress_test" == "$database" ]]; then
 	printf "Creating database wordpress_test\n"
 	PORT=$(mysqld --verbose --help | grep ^port | head -1 | awk '{print $2}')
 	mysqladmin --defaults-file="/tmp/my.cnf" create "wordpress_test" --host="localhost" --port="$PORT"
