@@ -336,6 +336,7 @@ cd "$WP_CORE_DIR" || exit
 
 # Get the latest WordPress version from API.
 readonly WP_LATEST=$(wget -q -O - "https://api.wordpress.org/core/version-check/1.5/" | head -n 4 | tail -n 1)
+#readonly WP_LATEST=$(wget -q -O - "https://api.wordpress.org/core/version-check/1.7/" | grep -o '"current":"[^"]*"' | head -1 | tr -d '"' | awk -F: '{print $2}')
 
 if [[ 'latest' == "$WP_VERSION" ]]; then
 	WP_VERSION="$WP_LATEST"
