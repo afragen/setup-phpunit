@@ -453,9 +453,15 @@ if [[ -f "$WP_TESTS_DIR/wp-tests-config.php" ]]; then
 	cp "$WP_TESTS_DIR/wp-tests-config.php" "/tmp/wp-tests-config.php"
 fi
 
+# Make tests config for develop.git.wordpress.org.
+if [[ -f "$LOCAL_PUBLIC/wp-tests-config-sample.php" ]]; then
+	printf "Create credentials for wp-tests-config.php...\n"
+	sed -e 's/yourusernamehere/root/g' -e 's/yourpasswordhere/root/g' -e 's/youremptytestdbnamehere/wordpress_test/g' $LOCAL_PUBLIC/wp-tests-config-sample.php >$LOCAL_PUBLIC/wp-tests-config.php
+fi
+
 # If tests config not present copy to Local's WP root.
 if [[ ! -f "$LOCAL_PUBLIC/wp-tests-config.php" ]]; then
-	printf "Copying $WP_TESTS_DIR/wp-tests-config.php to $LOCAL_PUBLIC\n"
+	printf "Copying $WP_TESTS_DIR/wp-tests-config.php to $LOCAL_PUBLIC...\n"
 	cp "$WP_TESTS_DIR/wp-tests-config.php" $LOCAL_PUBLIC
 fi
 
