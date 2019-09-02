@@ -338,8 +338,10 @@ cd "$WP_CORE_DIR" || exit
 [[ -z "$WP_VERSION" ]] && WP_VERSION='latest'
 
 # Get the latest WordPress version from API.
-readonly WP_LATEST=$(wget -q -O - "https://api.wordpress.org/core/version-check/1.5/" | head -n 4 | tail -n 1)
-#readonly WP_LATEST=$(wget -q -O - "https://api.wordpress.org/core/version-check/1.7/" | grep -o '"current":"[^"]*"' | head -1 | tr -d '"' | awk -F: '{print $2}')
+#readonly WP_LATEST=$(wget -q -O - "https://api.wordpress.org/core/version-check/1.5/" | head -n 4 | tail -n 1)
+
+# http serves a single offer, whereas https serves multiple. we only want one.
+readonly WP_LATEST=$(wget -q -O - "http://api.wordpress.org/core/version-check/1.7/" | grep -o '"version":"[^"]*"' | head -1 | tr -d '"' | awk -F: '{print $2}')
 
 if [[ 'latest' == "$WP_VERSION" ]]; then
 	WP_VERSION="$WP_LATEST"
