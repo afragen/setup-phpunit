@@ -36,11 +36,11 @@
 # 2 - Right click your site in the Local App and click Open Site SSH
 # A new terminal window will open
 #
-# 3 - Go to your site's /app folder:
-# cd /app
+# 3 - Go to your site's /public folder:
+# cd /public
 #
 # 4 - Run this script
-# bash setup-phpunit.sh
+# bash ../setup-phpunit.sh
 #
 # 5 - Reload the .bashrc file
 # source ~/.bashrc
