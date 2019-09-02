@@ -114,6 +114,9 @@ readonly CONNECTION="Make sure you're connected to the internet."
 readonly RED='\033[0;31m' # Red color.
 readonly RESET='\033[0m'  # No color.
 
+# /app/public dir for Local installation.
+readonly LOCAL_PUBLIC=$(pwd)
+
 # Functions
 function download() {
 	download=false
@@ -401,7 +404,7 @@ fi
 
 # Update credentials in the wp-tests-config.php file.
 if [[ -f "$WP_TESTS_DIR/wp-tests-config.php" ]]; then
-	printf "Updating wp-tests-config-sample.php...\n"
+	printf "Updating wp-tests-config.php...\n"
 	if [[ $(uname -s) == 'Darwin' ]]; then
 		ioption='-i .bak'
 	else
@@ -446,6 +449,12 @@ fi
 if [[ -f "$WP_TESTS_DIR/wp-tests-config.php" ]]; then
 	# VVV has the tests config outside the $WP_TESTS_DIR dir.
 	cp "$WP_TESTS_DIR/wp-tests-config.php" "/tmp/wp-tests-config.php"
+fi
+
+# If tests config not present copy to Local's WP root.
+if [[ ! -f "$LOCAL_PUBLIC/wp-tests-config.php" ]]; then
+	printf "Copying $WP_TESTS_DIR/wp-tests-config.php to $LOCAL_PUBLIC\n"
+	cp "$WP_TESTS_DIR/wp-tests-config.php" $LOCAL_PUBLIC
 fi
 
 # Cleanup files.
