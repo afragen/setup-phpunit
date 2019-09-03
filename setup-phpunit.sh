@@ -36,11 +36,11 @@
 # 2 - Right click your site in the Local App and click Open Site SSH
 # A new terminal window will open
 #
-# 3 - Go to your site's /public folder:
-# cd /public
+# 3 - Go to your site's /app folder:
+# cd /app
 #
 # 4 - Run this script
-# bash ../setup-phpunit.sh
+# bash setup-phpunit.sh
 #
 # 5 - Reload the .bashrc file
 # source ~/.bashrc
@@ -115,7 +115,13 @@ readonly RED='\033[0;31m' # Red color.
 readonly RESET='\033[0m'  # No color.
 
 # /app/public dir for Local installation.
-readonly LOCAL_PUBLIC=$(pwd)
+DIR=$(pwd)
+BASE_DIR=$(echo $DIR | grep -o "app.*$")
+if [[ "app/public" == $BASE_DIR ]]; then
+	readonly LOCAL_PUBLIC=$DIR
+elif [[ "app" == $BASE_DIR ]]; then
+	readonly LOCAL_PUBLIC=$DIR/public
+fi
 
 # Functions
 function download() {
@@ -461,8 +467,7 @@ fi
 
 # If tests config not present copy to Local's WP root.
 if [[ ! -f "$LOCAL_PUBLIC/wp-tests-config.php" ]]; then
-	printf "Copying $WP_TESTS_DIR/wp-tests-config.php to $LOCAL_PUBLIC...\n"
-	cp "$WP_TESTS_DIR/wp-tests-config.php" $LOCAL_PUBLIC
+	cp -v "$WP_TESTS_DIR/wp-tests-config.php" "$LOCAL_PUBLIC"
 fi
 
 # Cleanup files.
