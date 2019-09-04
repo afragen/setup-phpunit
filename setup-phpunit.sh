@@ -425,9 +425,24 @@ if [[ -f "$WP_TESTS_DIR/wp-tests-config.php" ]]; then
 	sed $ioption "s/yourpasswordhere/root/" "$WP_TESTS_DIR/wp-tests-config.php"
 fi
 
+# VVV has the tests config outside the $WP_TESTS_DIR dir.
+if [[ -f "$WP_TESTS_DIR/wp-tests-config.php" ]]; then
+	cp -v "$WP_TESTS_DIR/wp-tests-config.php" "/tmp/wp-tests-config.php"
+fi
+
+# Make tests config for develop.git.wordpress.org.
+if [[ -f "$LOCAL_PUBLIC/wp-tests-config-sample.php" ]]; then
+	printf "Create credentials for wp-tests-config.php...\n"
+	sed -e 's/yourusernamehere/root/g' -e 's/yourpasswordhere/root/g' -e 's/youremptytestdbnamehere/wordpress_test/g' $LOCAL_PUBLIC/wp-tests-config-sample.php >$LOCAL_PUBLIC/wp-tests-config.php
+fi
+
+# If tests config not present copy to Local's WP root.
+if [[ ! -f "$LOCAL_PUBLIC/wp-tests-config.php" ]]; then
+	cp -v "$WP_TESTS_DIR/wp-tests-config.php" "$LOCAL_PUBLIC"
+fi
+
 # Install database if it doesn't exist.
 printf "Checking if database wordpress_test exists\n"
-
 touch /tmp/my.cnf
 
 # Suppress password warnings. It silly I know :-)
@@ -452,22 +467,6 @@ if ! [[ "wordpress_test" == "$database" ]]; then
 	mysqladmin --defaults-file="/tmp/my.cnf" create "wordpress_test" --host="localhost" --port="$PORT"
 else
 	printf "Database wordpress_test already exists\n"
-fi
-
-if [[ -f "$WP_TESTS_DIR/wp-tests-config.php" ]]; then
-	# VVV has the tests config outside the $WP_TESTS_DIR dir.
-	cp "$WP_TESTS_DIR/wp-tests-config.php" "/tmp/wp-tests-config.php"
-fi
-
-# Make tests config for develop.git.wordpress.org.
-if [[ -f "$LOCAL_PUBLIC/wp-tests-config-sample.php" ]]; then
-	printf "Create credentials for wp-tests-config.php...\n"
-	sed -e 's/yourusernamehere/root/g' -e 's/yourpasswordhere/root/g' -e 's/youremptytestdbnamehere/wordpress_test/g' $LOCAL_PUBLIC/wp-tests-config-sample.php >$LOCAL_PUBLIC/wp-tests-config.php
-fi
-
-# If tests config not present copy to Local's WP root.
-if [[ ! -f "$LOCAL_PUBLIC/wp-tests-config.php" ]]; then
-	cp -v "$WP_TESTS_DIR/wp-tests-config.php" "$LOCAL_PUBLIC"
 fi
 
 # Cleanup files.

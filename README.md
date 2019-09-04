@@ -4,10 +4,22 @@ This is an updated version of gist [setup-phpunit.sh](https://gist.github.com/ke
 
 I converted it to a repository to more easily update it. I couldn't seem to `git push` to the gist.
 
+## Installation
+
 Add using the following.
 
 `curl -o setup-phpunit.sh https://raw.githubusercontent.com/afragen/setup-phpunit/lightning/setup-phpunit.sh`
 
+## Usage
+
 `setup-phpunit.sh` is meant to reside in `/app` and be run from `/app/public` as `bash ../setup-phpunit.sh` or from `/app` as `bash setup-phpunit.sh`
 
-Running the script will create a correct version of `wp-tests-config.php` for your installation.
+## What It Does
+
+This is meant as a primary replacement for the `install-wp-tests.sh` script created from plugin scaffolding with `wp scaffold plugin-tests your_plugin`.
+
+* Installs correct version of PHPUnit, with option to specify version.
+* Installs specified version of WordPress and WordPress Test Suite, with option to specify version.
+* Create a correct version of `wp-tests-config.php` for your installation.
+* Creates a test database.
+* Cleans up afterwards.
