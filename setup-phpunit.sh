@@ -459,7 +459,8 @@ if ! [[ "wordpress_test" == "$database" ]]; then
 	printf "Creating database wordpress_test\n"
 	SOCKET=$(mysqld --verbose --help | grep ^socket | awk '{print $2, $3, $4}')
 	PORT=$(mysqld --verbose --help | grep ^port | head -1 | awk '{print $2}')
-	mysqladmin --defaults-file="/tmp/my.cnf" create "wordpress_test" --host="localhost" --port="$PORT" --socket="$SOCKET"
+	#mysqladmin --defaults-file="/tmp/my.cnf" create "wordpress_test" --host="localhost" --port="$PORT" --socket="$SOCKET"
+	mysqladmin create "wordpress_test"
 else
 	printf "Database wordpress_test already exists\n"
 fi
