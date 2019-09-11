@@ -173,7 +173,6 @@ function clean_up_temp_files() {
 	[[ -d "/tmp/tmp-wordpress/" ]] && rm -rf "/tmp/tmp-wordpress/"
 	[[ -d "/tmp/tmp-wordpress-tests-lib/" ]] && rm -rf "/tmp/tmp-wordpress-tests-lib/"
 	[[ -f "/tmp/my.cnf" ]] && rm -f "/tmp/my.cnf"
-	[[ -L "/tmp/mysql.sock" ]] && rm -f "/tmp/mysql.sock"
 }
 
 function exit_script() {
@@ -450,11 +449,6 @@ printf "[client]\npassword=root\nuser=root" >"/tmp/my.cnf"
 
 # Check if database exists.
 database=""
-if ! [[ -f "/tmp/mysql.sock" ]]; then
-	SOCKET=$(mysqld --verbose --help | grep ^socket | awk '{print $2, $3, $4}')
-	ln -sf "$SOCKET" /tmp/mysql.sock
-	echo "Copy 'mysql.sock' from Local Lightning"
-fi
 if ! [[ "mysqlshow --version" ]]; then
 	database=$(mysqlshow --defaults-file="/tmp/my.cnf" wordpress_test | grep -v Wildcard | grep -o wordpress_test)
 elif $(mysql -e 'use wordpress_test'); then
@@ -463,8 +457,9 @@ fi
 
 if ! [[ "wordpress_test" == "$database" ]]; then
 	printf "Creating database wordpress_test\n"
+	SOCKET=$(mysqld --verbose --help | grep ^socket | awk '{print $2, $3, $4}')
 	PORT=$(mysqld --verbose --help | grep ^port | head -1 | awk '{print $2}')
-	mysqladmin --defaults-file="/tmp/my.cnf" create "wordpress_test" --host="localhost" --port="$PORT"
+	mysqladmin --defaults-file="/tmp/my.cnf" create "wordpress_test" --host="localhost" --port="$PORT" --socket="$SOCKET"
 else
 	printf "Database wordpress_test already exists\n"
 fi
