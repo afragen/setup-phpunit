@@ -8,7 +8,7 @@ I converted it to a repository to more easily update it. I couldn't seem to `git
 
 Add using the following.
 
-`curl -o setup-phpunit.sh https://raw.githubusercontent.com/afragen/setup-phpunit/lightning/setup-phpunit.sh`
+`curl -o setup-phpunit.sh https://raw.githubusercontent.com/afragen/setup-phpunit/master/setup-phpunit.sh`
 
 ## Usage
 

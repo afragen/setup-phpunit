@@ -31,7 +31,7 @@
 # Instructions
 #
 # 1 - Download this file (setup-phpunit.sh) inside your site's /app folder
-# curl -o setup-phpunit.sh https://raw.githubusercontent.com/afragen/setup-phpunit/lightning/setup-phpunit.sh
+# curl -o setup-phpunit.sh https://raw.githubusercontent.com/afragen/setup-phpunit/master/setup-phpunit.sh
 #
 # 2 - Right click your site in the Local App and click Open Site SSH
 # A new terminal window will open
