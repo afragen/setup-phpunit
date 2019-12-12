@@ -302,6 +302,12 @@ else
 	exit_script
 fi
 
+# Make .bashrc if not present.
+if [[ ! -f "$HOME/.bashrc" ]]; then
+	echo "Creating  ~/.bashrc"
+	touch "$HOME/.bashrc"
+fi
+
 # Set WordPress environment variables.
 if [[ -f "$HOME/.bashrc" ]]; then
 
