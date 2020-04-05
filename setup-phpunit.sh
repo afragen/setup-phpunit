@@ -275,17 +275,23 @@ PHP_VERSION=$(php -r "echo PHP_VERSION;")
 # Get first three characters from version
 readonly PHP_VERSION="${PHP_VERSION:0:3}"
 
+# https://phpunit.de/supported-versions.html
+# Currently WordPress only supports up to PHPUnit 7.x
+# https://make.wordpress.org/core/handbook/testing/automated-testing/phpunit/#setup
 # Set the PHPUnit version if needed.
 if [[ -z "$PHPUNIT_VERSION" ]]; then
 	case "$PHP_VERSION" in
-	7.4 | 7.3 | 7.2 | 7.1)
+	7.4 | 7.3 | 7.2)
 		PHPUNIT_VERSION=7
 		;;
-	7.0)
+	7.1 | 7.0)
 		PHPUNIT_VERSION=6
 		;;
-	*)
+	5.6)
 		PHPUNIT_VERSION=4
+		;;
+	*)
+		PHPUNIT_VERSION=7
 		;;
 	esac
 fi
