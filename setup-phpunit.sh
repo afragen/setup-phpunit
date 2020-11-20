@@ -235,7 +235,7 @@ if [[ "$INSTALL_PACKAGES" == true || "$UPDATE_PACKAGES" == true ]]; then
 
 	if [[ "MacOS" == $OS_TYPE && "$INSTALL_PACKAGES" == true ]]; then
 		xcode-select --install
-		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 		brew install wget
 		brew install composer
 	fi
