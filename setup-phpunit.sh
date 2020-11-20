@@ -159,7 +159,7 @@ function download_test_suite() {
 }
 
 function packages_installed() {
-	for file in wget curl svn rsync composer git mysql; do
+	for file in wget curl svn rsync composer git; do
 		bin=`which $file`
 		# Check if executable file.
 		if ! [[ -f "$bin" && -x "$bin" ]]; then
