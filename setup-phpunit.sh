@@ -159,9 +159,10 @@ function download_test_suite() {
 }
 
 function packages_installed() {
-	for file in /usr/local/bin/wget /usr/bin/curl /usr/bin/svn /usr/bin/rsync /usr/local/bin/composer /usr/bin/git; do
+	for file in wget curl svn rsync composer git mysql; do
+		bin=`which $file`
 		# Check if executable file.
-		if ! [[ -f "$file" && -x "$file" ]]; then
+		if ! [[ -f "$bin" && -x "$bin" ]]; then
 			return 1
 		fi
 	done
