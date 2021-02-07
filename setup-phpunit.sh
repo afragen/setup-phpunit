@@ -222,6 +222,7 @@ done
 # Can use $(uname) to determine OS type.
 if [[ 'Darwin' == $(uname) ]]; then
 	OS_TYPE="MacOS"
+	BREW_PATH=$(brew --prefix)
 else
 	OS_TYPE="Linux/WSL"
 fi
@@ -303,7 +304,11 @@ readonly PHPUNIT_VERSION="$PHPUNIT_VERSION"
 printf "Installing PHPUnit %s... \n" "$PHPUNIT_VERSION"
 if download "https://phar.phpunit.de/phpunit-$PHPUNIT_VERSION.phar" "phpunit-$PHPUNIT_VERSION.phar"; then
 	chmod +x "phpunit-$PHPUNIT_VERSION.phar"
-	mv "phpunit-$PHPUNIT_VERSION.phar" /usr/local/bin/phpunit
+	if [[ "MacOS" == $OS_TYPE ]]; then
+		mv -fv "phpunit-$PHPUNIT_VERSION.phar" $BREW_PATH/bin/phpunit
+	else
+		mv -fv "phpunit-$PHPUNIT_VERSION.phar" /usr/local/bin/phpunit
+	fi
 else
 	printf "%s\n" "$QUIT"
 	exit_script
