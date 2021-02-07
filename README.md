@@ -1,4 +1,4 @@
-# Setup PHPUnit for Local Lightning
+# Setup PHPUnit for Local 5.x or greater
 
 This is an updated version of gist [setup-phpunit.sh](https://gist.github.com/keesiemeijer/a888f3d9609478b310c2d952644891ba)
 
@@ -17,6 +17,8 @@ Install the `setup-phpunit.sh` script using the following.
 ## Usage
 
 `setup-phpunit.sh` is meant to reside in `/app` and be run from `/app/public` as `bash ../setup-phpunit.sh` or from `/app` as `bash setup-phpunit.sh`
+
+You must use `/usr/local/bin/phpunit` for your testing.
 
 ## What It Does
 

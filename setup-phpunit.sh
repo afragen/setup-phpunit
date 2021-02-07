@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ===============================================================================
-# Script to install PHPUnit in the Local Lightning by Flywheel Mac app
+# Script to install PHPUnit in the Local 5.x by Flywheel Mac app
 # Modified from Kees Meijer's fabulous gist, https://gist.github.com/keesiemeijer/a888f3d9609478b310c2d952644891ba
 # These packages are installed
 #
@@ -19,6 +19,7 @@
 #
 # You only have to run this script once. PHPUnit (and the other packages) are
 # still available next time you ssh into your site.
+# You must use `/usr/local/bin/phpunit` for your testing.
 #
 # To update WordPress and the WP Test Suite re-run this script.
 # Use options to install specific versions for PHPUnit, WordPress or the WP_UnitTestCase.
@@ -239,7 +240,8 @@ if [[ "$INSTALL_PACKAGES" == true || "$UPDATE_PACKAGES" == true ]]; then
 		xcode-select --install
 		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 		brew install wget
-		brew install composer
+		# Composer install in Local Site Shell.
+		# brew install composer
 	fi
 	if ! [[ "MacOS" == $OS_TYPE ]]; then
 		# Re-synchronize the package index files from their sources.
@@ -304,11 +306,7 @@ readonly PHPUNIT_VERSION="$PHPUNIT_VERSION"
 printf "Installing PHPUnit %s... \n" "$PHPUNIT_VERSION"
 if download "https://phar.phpunit.de/phpunit-$PHPUNIT_VERSION.phar" "phpunit-$PHPUNIT_VERSION.phar"; then
 	chmod +x "phpunit-$PHPUNIT_VERSION.phar"
-	if [[ "MacOS" == $OS_TYPE ]]; then
-		mv -fv "phpunit-$PHPUNIT_VERSION.phar" $BREW_PATH/bin/phpunit
-	else
-		mv -fv "phpunit-$PHPUNIT_VERSION.phar" /usr/local/bin/phpunit
-	fi
+	mv -fv "phpunit-$PHPUNIT_VERSION.phar" /usr/local/bin/phpunit
 else
 	printf "%s\n" "$QUIT"
 	exit_script
