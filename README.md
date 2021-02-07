@@ -6,7 +6,11 @@ I converted it to a repository to more easily update it. I couldn't seem to `git
 
 ## Installation
 
-Add using the following.
+If you use a Mac please install [Homebrew](https://brew.sh) using the following command.
+
+`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"`
+
+Install the `setup-phpunit.sh` script using the following.
 
 `curl -o setup-phpunit.sh https://raw.githubusercontent.com/afragen/setup-phpunit/master/setup-phpunit.sh`
 
