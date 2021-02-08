@@ -240,7 +240,7 @@ if [[ "$INSTALL_PACKAGES" == true || "$UPDATE_PACKAGES" == true ]]; then
 		xcode-select --install
 		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 		brew install wget
-		# Composer install in Local Site Shell.
+		# Composer installed in Local's Site Shell.
 		# brew install composer
 	fi
 	if ! [[ "MacOS" == $OS_TYPE ]]; then
