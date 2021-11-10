@@ -240,6 +240,7 @@ if [[ "$INSTALL_PACKAGES" == true || "$UPDATE_PACKAGES" == true ]]; then
 		xcode-select --install
 		/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 		brew install wget
+		brew install svn
 		# Composer installed in Local's Site Shell.
 		# brew install composer
 	fi
